@@ -16,60 +16,56 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  int _currentIndex = 0;
+  int _currentPageIndex = 0;
 
   final List<Widget> _pages = const [
     OverviewPage(),
+    ShopSettingsPage(),
     AddProductPage(),
     ProjectManagementApp(),
+    ServicesApp(),
+    FAQApp(),
+    ShippingManagementApp(),
     CustomerPage(),
   ];
 
-  final List<String> _titles = [
-    "Dashboard",
-    "Products",
-    "Orders",
-    "Customers",
-  ];
-
-  void _onDrawerOptionSelected(String option) {
+  void _onDrawerOptionSelected(int index) {
+    setState(() {
+      _currentPageIndex = index;
+    });
     Navigator.pop(context); // Close the drawer
+  }
 
-    if (option == "Logout") {
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text("Confirm Logout"),
-          content: const Text("Are you sure you want to logout?"),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text("Cancel"),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("Logged out")),
-                );
-              },
-              child: const Text("Logout", style: TextStyle(color: Colors.red)),
-            ),
-          ],
-        ),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("$option selected")),
-      );
-    }
+  void _onLogout() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Confirm Logout"),
+        content: const Text("Are you sure you want to logout?"),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("Cancel"),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text("Logged out")),
+              );
+            },
+            child: const Text("Logout", style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_titles[_currentIndex]),
+        title: const Text("Admin Dashboard"),
         backgroundColor: Colors.deepPurple,
         foregroundColor: Colors.white,
       ),
@@ -93,70 +89,122 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ],
               ),
             ),
+            // Dashboard
             ListTile(
-            leading: const Icon(Icons.settings),
-            title: const Text('Shop Settings'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const ShopSettingsPage()),
-              );
-            },
-          ),
-
-            ListTile(
-              leading: const Icon(Icons.local_shipping),
-              title: const Text("Shipping"),
-              onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const ShippingManagementApp()),
-            );
-          },
-              
+              leading: const Icon(Icons.dashboard),
+              title: const Text('Dashboard'),
+              selected: _currentPageIndex == 0,
+              selectedTileColor: Colors.deepPurple.withOpacity(0.1),
+              onTap: () => _onDrawerOptionSelected(0),
             ),
+            
+            // Shop Settings with Expansion
+            ExpansionTile(
+              leading: const Icon(Icons.settings),
+              title: const Text('Shop Settings'),
+              initiallyExpanded: _currentPageIndex == 1,
+              children: [
+                ListTile(
+                  title: const Text('Size'),
+                  leading: const Icon(Icons.straighten, size: 20),
+                  onTap: () {
+                    // Navigate to size settings
+                    _onDrawerOptionSelected(1);
+                  },
+                ),
+                ListTile(
+                  title: const Text('Color'),
+                  leading: const Icon(Icons.color_lens, size: 20),
+                  onTap: () {
+                    // Navigate to color settings
+                    _onDrawerOptionSelected(1);
+                  },
+                ),
+                ListTile(
+                  title: const Text('Shipping Partner'),
+                  leading: const Icon(Icons.local_shipping, size: 20),
+                  onTap: () {
+                    // Navigate to shipping partner settings
+                    _onDrawerOptionSelected(1);
+                  },
+                ),
+                ListTile(
+                  title: const Text('Category'),
+                  leading: const Icon(Icons.category, size: 20),
+                  onTap: () {
+                    // Navigate to category settings
+                    _onDrawerOptionSelected(1);
+                  },
+                ),
+              ],
+            ),
+            
+            // Product Management
+            ListTile(
+              leading: const Icon(Icons.shopping_bag),
+              title: const Text('Product Management'),
+              selected: _currentPageIndex == 2,
+              selectedTileColor: Colors.deepPurple.withOpacity(0.1),
+              onTap: () => _onDrawerOptionSelected(2),
+            ),
+            
+            // Order Management
+            ListTile(
+              leading: const Icon(Icons.receipt),
+              title: const Text('Order Management'),
+              selected: _currentPageIndex == 3,
+              selectedTileColor: Colors.deepPurple.withOpacity(0.1),
+              onTap: () => _onDrawerOptionSelected(3),
+            ),
+            
+            // Services
             ListTile(
               leading: const Icon(Icons.miscellaneous_services),
-              title: const Text("Services"),
-              onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const ServicesApp()),
-            );
-          },
+              title: const Text('Services'),
+              selected: _currentPageIndex == 4,
+              selectedTileColor: Colors.deepPurple.withOpacity(0.1),
+              onTap: () => _onDrawerOptionSelected(4),
             ),
+            
+            // FAQ
             ListTile(
               leading: const Icon(Icons.question_answer),
-              title: const Text("FAQ"),
-              onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const FAQApp()),
-            );
-          },
+              title: const Text('FAQ'),
+              selected: _currentPageIndex == 5,
+              selectedTileColor: Colors.deepPurple.withOpacity(0.1),
+              onTap: () => _onDrawerOptionSelected(5),
             ),
+            
+            // Shipping
+            ListTile(
+              leading: const Icon(Icons.local_shipping),
+              title: const Text('Shipping'),
+              selected: _currentPageIndex == 6,
+              selectedTileColor: Colors.deepPurple.withOpacity(0.1),
+              onTap: () => _onDrawerOptionSelected(6),
+            ),
+            
+            // Register Customer
+            ListTile(
+              leading: const Icon(Icons.person_add),
+              title: const Text('Register Customer'),
+              selected: _currentPageIndex == 7,
+              selectedTileColor: Colors.deepPurple.withOpacity(0.1),
+              onTap: () => _onDrawerOptionSelected(7),
+            ),
+            
             const Divider(),
+            
+            // Logout
             ListTile(
               leading: const Icon(Icons.logout, color: Colors.red),
-              title: const Text("Logout", style: TextStyle(color: Colors.red)),
-              onTap: () => _onDrawerOptionSelected("Logout"),
+              title: const Text('Logout', style: TextStyle(color: Colors.red)),
+              onTap: _onLogout,
             ),
           ],
         ),
       ),
-      body: _pages[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        selectedItemColor: Colors.deepPurple,
-        unselectedItemColor: Colors.grey,
-        onTap: (index) => setState(() => _currentIndex = index),
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.dashboard), label: 'Overview'),
-          BottomNavigationBarItem(icon: Icon(Icons.shopping_bag), label: 'Products'),
-          BottomNavigationBarItem(icon: Icon(Icons.receipt), label: 'Orders'),
-          BottomNavigationBarItem(icon: Icon(Icons.people), label: 'Customers'),
-        ],
-      ),
+      body: _pages[_currentPageIndex],
     );
   }
 }
