@@ -9,7 +9,7 @@ import 'package:admin/ProductManagement/ProductListingPage.dart';
 import 'package:admin/ServiceManagement/CategoryListPage.dart';
 import 'package:admin/ServiceManagement/CustomerListPage.dart';
 import 'package:admin/ServiceManagement/StockAlertsPage.dart';
-import 'package:admin/AdminProducts.dart';
+// import 'package:admin/AdminProducts.dart';
 import 'package:admin/AdminOrders.dart';
 import 'package:admin/AdminCustomers.dart';
 import 'package:admin/ShopSettings.dart';
@@ -393,19 +393,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
             _buildDrawerSubItem('Category', Icons.category, CategorySettingsPage()),
           ]),
           _buildExpansionTile('Product Management', [
-            _buildDrawerSubItem('Add Product', Icons.upload_file, AddProductPage()),
+            _buildDrawerSubItem('Add Product', Icons.upload_file, ProductManagementPage()),
             _buildDrawerSubItem('Product Listing', Icons.view_list, ProductListingPage(products: [])),
           ]),
           _buildExpansionTile('Order Management', [
             _buildDrawerSubItem('Order Detail', Icons.upload_file, OrderDetailPage()),
-            _buildDrawerSubItem('Order List Page', Icons.assignment_outlined, Center(child: Text("Order List Page"))),
-            _buildDrawerSubItem('Shipping Management', Icons.info_outline, Center(child: Text("Shipping Management"))),
+            _buildDrawerSubItem('Order List Page', Icons.assignment_outlined, OrderListPage()),
+            _buildDrawerSubItem('Shipping Management', Icons.info_outline, ShippingManagementPage()),
             _buildDrawerSubItem('Status Update', Icons.edit_note, StatusUpdateDialog()),
           ]),
           _buildExpansionTile('Services', [
             _buildDrawerSubItem('Category List', Icons.upload_file, CategoryListPage()),
             _buildDrawerSubItem('Customer List', Icons.assignment_outlined, CustomerListPage()),
-            _buildDrawerSubItem('Order List', Icons.info_outline, Center(child: Text("Order List"))),
+            _buildDrawerSubItem('Order List', Icons.info_outline, OrderListPage()),
             _buildDrawerSubItem('Stock Alerts', Icons.edit_note, StockAlertsPage()),
           ]),
           _buildDrawerItem(Icons.question_answer, 'FAQ', 5),
